@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Smile_RetailerService adminhtml menu configuration.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  Smile
+ * @package   Smile\RetailerService
+ * @author    Fanny DECLERCK <fadec@smile.fr>
+ * @copyright 2019 Smile
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Manage Retailer Services -->
+        <add id="Smile_RetailerService::retailer_services"
+             title="Retailer Services"
+             translate="title"
+             module="Smile_RetailerService"
+             sortOrder="30"
+             parent="Smile_Retailer::retailers_menu"
+             action="smile_retailer_service/service"
+             resource="Smile_RetailerService::retailer_services"/>
+    </menu>
+</config>

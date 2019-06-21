@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * RetailerService ACLs.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Smile Elastic Suite to newer
+ * versions in the future.
+ *
+ *
+ * @category  Smile
+ * @package   Smile\RetailerService
+ * @author    Fanny DECLERCK <fadec@smile.fr>
+ * @copyright 2019 Smile
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+ -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Smile_Seller::sellers">
+                    <resource id="Smile_Retailer::retailers">
+                        <resource id="Smile_RetailerService::retailer_services" title="Manage Retailer Services"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

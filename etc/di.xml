@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Smile_RetailerService dependency injection configuration.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  Smile
+ * @package   Smile\RetailerService
+ * @author    Fanny DECLERCK <fadec@smile.fr>
+ * @copyright 2019 Smile
+ * @license   Open Software License ("OSL") v. 3.0
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Smile\RetailerService\Api\Data\ServiceInterface" type="Smile\RetailerService\Model\Service" />
+    <preference for="Smile\RetailerService\Api\Data\ServiceSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Smile\RetailerService\Api\ServiceRepositoryInterface" type="Smile\RetailerService\Model\ServiceRepository" />
+</config>
