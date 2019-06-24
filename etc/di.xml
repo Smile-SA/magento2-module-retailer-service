@@ -19,4 +19,48 @@
     <preference for="Smile\RetailerService\Api\Data\ServiceInterface" type="Smile\RetailerService\Model\Service" />
     <preference for="Smile\RetailerService\Api\Data\ServiceSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Smile\RetailerService\Api\ServiceRepositoryInterface" type="Smile\RetailerService\Model\ServiceRepository" />
+
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Smile\RetailerService\Api\Data\ServiceInterface" xsi:type="string">Smile\RetailerService\Api\ServiceRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Smile\RetailerService\Api\Data\ServiceInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">smile_retailer_service</item>
+                    <item name="identifierField" xsi:type="string">service_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Smile\RetailerService\Api\Data\ServiceInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Smile\RetailerService\Model\ResourceModel\Service\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">smile_retailer_service</argument>
+            <argument name="eventPrefix" xsi:type="string">smile_retailer_service_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">smile_retailer_service_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Smile\RetailerService\Model\ResourceModel\Service</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="smile_retailer_service_listing_data_source" xsi:type="string">
+                    Smile\RetailerService\Model\ResourceModel\Service\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

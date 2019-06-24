@@ -130,7 +130,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 
         $items = $searchResult->getItems();
         if (empty($items)) {
-            throw NoSuchEntityException::singleField(OfferInterface::SKU_COLUMN_NAME, $retailerId);
+            throw NoSuchEntityException::singleField(ServiceInterface::NAME, $retailerId);
         }
 
         return reset($items);

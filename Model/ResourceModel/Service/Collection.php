@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
 use Smile\RetailerService\Api\Data\ServiceInterface;
 
 /**
- * Service Collection
+ * Service Collection class
  *
  * @category Smile
  * @package  Smile\RetailerService

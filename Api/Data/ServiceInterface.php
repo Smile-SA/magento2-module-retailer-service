@@ -19,7 +19,7 @@ namespace Smile\RetailerService\Api\Data;
  *
  * @api
  */
-interface ServiceInterface extends \Magento\Framework\Api\CustomAttributesDataInterface
+interface ServiceInterface
 {
     /**
      * The table name

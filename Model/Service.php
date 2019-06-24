@@ -16,6 +16,7 @@ namespace Smile\RetailerService\Model;
 
 use Smile\RetailerService\Api\Data\ServiceInterface;
 use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Service Model
@@ -26,7 +27,7 @@ use Magento\Framework\DataObject\IdentityInterface;
  * @package  Smile\RetailerService
  * @author   Fanny DECLERCK <fadec@smile.fr>
  */
-class Service extends \Magento\Framework\Model\AbstractExtensibleModel implements ServiceInterface, IdentityInterface
+class Service extends AbstractModel implements ServiceInterface, IdentityInterface
 {
     /**
      * @var string

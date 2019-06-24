@@ -94,7 +94,6 @@ class Service extends AbstractDb
      */
     public function save(AbstractModel $object)
     {
-        $this->_beforeSave($object);
         $this->entityManager->save($object);
 
         return $this;
@@ -117,8 +116,10 @@ class Service extends AbstractDb
      */
     protected function _construct()
     {
-        $metadata = $this->metadataPool->getMetadata(ServiceInterface::class);
-        $this->_init($metadata->getEntityTable(), $metadata->getIdentifierField());
+        $this->_init(
+            ServiceInterface::TABLE_NAME,
+            ServiceInterface::SERVICE_ID
+        );
     }
 
     /**
@@ -135,7 +136,6 @@ class Service extends AbstractDb
     private function getServiceId(AbstractModel $object, $value, $field = null)
     {
         $entityMetadata = $this->metadataPool->getMetadata(ServiceInterface::class);
-
         if ($field === null) {
             $field = ServiceInterface::SERVICE_ID;
         }
