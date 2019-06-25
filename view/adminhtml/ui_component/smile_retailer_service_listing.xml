@@ -79,11 +79,30 @@
                     <label translate="true">Delete</label>
                 </settings>
             </action>
+            <action name="enable">
+                <settings>
+                    <url path="smile_retailer_service/service/massEnable"/>
+                    <type>enable</type>
+                    <label translate="true">Enable</label>
+                </settings>
+            </action>
+            <action name="disable">
+                <settings>
+                    <url path="smile_retailer_service/service/massDisable"/>
+                    <type>disable</type>
+                    <label translate="true">Disable</label>
+                </settings>
+            </action>
         </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="smile_retailer_service_columns">
         <settings>
+            <editorConfig>
+                <param name="indexField" xsi:type="string">service_id</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="selectProvider" xsi:type="string">smile_retailer_service_listing.smile_retailer_service_listing.smile_retailer_service_columns.ids</param>
+            </editorConfig>
             <childDefaults>
                 <param name="optinAction" xsi:type="array">
                     <item name="provider" xsi:type="string">
@@ -133,7 +152,7 @@
                 <label translate="true">Status</label>
             </settings>
         </column>
-        <column name="retailer_id" sortOrder="40">
+        <column name="retailer_id" sortOrder="40" class="Smile\RetailerService\Ui\Component\Listing\Column\RendererRetailers">
             <settings>
                 <filter>text</filter>
                 <label translate="true">Retailer</label>
@@ -145,5 +164,10 @@
                 <label translate="true">Sort</label>
             </settings>
         </column>
+        <actionsColumn name="actions" class="Smile\RetailerService\Ui\Component\Listing\Column\BlockActions">
+            <settings>
+                <indexField>service_id</indexField>
+            </settings>
+        </actionsColumn>
     </columns>
 </listing>

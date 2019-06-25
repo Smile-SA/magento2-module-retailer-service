@@ -26,7 +26,7 @@ use Smile\RetailerService\Api\Data\ServiceInterfaceFactory;
  *
  * @category Smile
  * @package  Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
+ * @author   Fanny DECLERCK <fadec@smile.fr>
  */
 abstract class AbstractService extends Action
 {
