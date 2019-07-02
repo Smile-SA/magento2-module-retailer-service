@@ -13,7 +13,7 @@
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
 use Magento\Framework\Controller\ResultFactory;
-use Smile\Retailer\Controller\Adminhtml\AbstractRetailer;
+use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 use Smile\RetailerService\Model\Status\Source\IsActive;
 
 /**
@@ -23,7 +23,7 @@ use Smile\RetailerService\Model\Status\Source\IsActive;
  * @package  Smile\RetailerService
  * @author   Fanny DECLERCK <fadec@smile.fr>
  */
-class MassDisable extends AbstractRetailer
+class MassDisable extends AbstractService
 {
     /**
      * Execute action
@@ -35,9 +35,9 @@ class MassDisable extends AbstractRetailer
     {
         $serviceIds = $this->getRequest()->getParam('selected');
         foreach ($serviceIds as $id) {
-            $model = $this->retailerRepository->get($id);
+            $model = $this->serviceRepository->get($id);
             $model->setData('status', IsActive::STATUS_DISABLED);
-            $this->retailerRepository->save($model);
+            $this->serviceRepository->save($model);
         }
 
         $this->messageManager->addSuccessMessage(

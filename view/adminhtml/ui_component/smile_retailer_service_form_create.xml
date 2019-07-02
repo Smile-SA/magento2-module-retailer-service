@@ -18,25 +18,24 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">smile_retailer_service_form.smile_retailer_service_form_data_source</item>
+            <item name="provider" xsi:type="string">smile_retailer_service_form_create.smile_retailer_service_form_create_data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">Service Information</item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
     <settings>
         <buttons>
-            <button name="save_and_continue" class="Smile\RetailerService\Block\Adminhtml\Service\Edit\Button\SaveAndContinue"/>
             <button name="save" class="Smile\RetailerService\Block\Adminhtml\Service\Edit\Button\Save"/>
             <button name="delete" class="Smile\RetailerService\Block\Adminhtml\Service\Edit\Button\Delete"/>
             <button name="back" class="Smile\RetailerService\Block\Adminhtml\Service\Edit\Button\Back"/>
         </buttons>
-        <namespace>smile_retailer_service_form</namespace>
+        <namespace>smile_retailer_service_form_create</namespace>
         <dataScope>data</dataScope>
         <deps>
-            <dep>smile_retailer_service_form.smile_retailer_service_form_data_source</dep>
+            <dep>smile_retailer_service_form_create.smile_retailer_service_form_create_data_source</dep>
         </deps>
     </settings>
-    <dataSource name="smile_retailer_service_form_data_source">
+    <dataSource name="smile_retailer_service_form_create_data_source">
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
@@ -45,7 +44,7 @@
         <settings>
             <submitUrl path="smile_retailer_service/service/save"/>
         </settings>
-        <dataProvider class="Smile\RetailerService\Model\Service\Form\DataProvider" name="smile_retailer_service_form_data_source">
+        <dataProvider class="Smile\RetailerService\Model\Service\Form\DataProvider" name="smile_retailer_service_form_create_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
                 <primaryFieldName>service_id</primaryFieldName>
@@ -124,7 +123,24 @@
                 </checkbox>
             </formElements>
         </field>
-        <!--media_path-->
+        <!--<field name="media_path" formElement="imageUploader">-->
+            <!--<settings>-->
+                <!--<label translate="true">Media</label>-->
+                <!--<componentType>fileUploader</componentType>-->
+            <!--</settings>-->
+            <!--<formElements>-->
+                <!--<imageUploader>-->
+                    <!--<settings>-->
+                        <!--<allowedExtensions>jpg jpeg gif png pdf</allowedExtensions>-->
+                        <!--<maxFileSize>2097152</maxFileSize>-->
+                        <!--<uploaderConfig>-->
+                            <!--<param xsi:type="string" name="url">smile_retailer_service/service/mediaUpload</param>-->
+                            <!--&lt;!&ndash;theme/design_config_fileUploader/save&ndash;&gt;-->
+                        <!--</uploaderConfig>-->
+                    <!--</settings>-->
+                <!--</imageUploader>-->
+            <!--</formElements>-->
+        <!--</field>-->
 
         <field name="retailer_id">
             <argument name="data" xsi:type="array">

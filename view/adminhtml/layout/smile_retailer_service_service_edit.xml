@@ -19,7 +19,7 @@
     <update handle="styles"/>
     <body>
         <referenceContainer name="content">
-            <uiComponent name="smile_retailer_service_form"/>
+            <uiComponent name="smile_retailer_service_form_edit"/>
         </referenceContainer>
     </body>
 </page>

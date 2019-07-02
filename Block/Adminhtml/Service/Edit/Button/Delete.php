@@ -54,6 +54,6 @@ class Delete extends AbstractButton implements ButtonProviderInterface
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', ['subject_id' => $this->getServiceId()]);
+        return $this->getUrl('*/*/delete', ['id' => $this->getServiceId()]);
     }
 }

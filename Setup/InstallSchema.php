@@ -83,7 +83,7 @@ class InstallSchema implements InstallSchemaInterface
                 ServiceInterface::MEDIA_PATH,
                 \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 255,
-                ['nullable' => false],
+                [],
                 'Media file path'
             )
             ->addColumn(
