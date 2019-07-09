@@ -93,6 +93,13 @@
                     <label translate="true">Disable</label>
                 </settings>
             </action>
+            <action name="update">
+                <settings>
+                    <url path="smile_retailer_service/service/massEdit"/>
+                    <type>update</type>
+                    <label translate="true">Update</label>
+                </settings>
+            </action>
         </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>

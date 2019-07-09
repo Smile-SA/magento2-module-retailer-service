@@ -32,7 +32,7 @@ class Create extends AbstractService
 
         $resultPage = $this->createPage();
 
-        $resultPage->setActiveMenu('Smile_Seller::retailer_offers');
+        $resultPage->setActiveMenu('Smile_Seller::retailer_service');
         $resultPage->getConfig()->getTitle()->prepend(__('New Retailer Service'));
 
         return $resultPage;

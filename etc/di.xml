@@ -63,4 +63,31 @@
             </argument>
         </arguments>
     </type>
+
+    <!-- VIRTUALTYPES -->
+    <virtualType name="Smile\RetailerService\ServiceImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">tmp/retailerservice/media</argument>
+            <argument name="basePath" xsi:type="string">retailerservice</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+                <item name="pdf" xsi:type="string">pdf</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Smile\RetailerService\Model\ServiceMediaUpload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Smile\RetailerService\ServiceImageUpload</argument>
+        </arguments>
+    </type>
+
+    <type name="Smile\RetailerService\Controller\Adminhtml\Service\MediaUpload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Smile\RetailerService\ServiceImageUpload</argument>
+        </arguments>
+    </type>
 </config>

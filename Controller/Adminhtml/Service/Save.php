@@ -14,6 +14,11 @@
 
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Registry;
+use Magento\Framework\View\Result\PageFactory;
+use Smile\RetailerService\Api\ServiceRepositoryInterface;
+use Smile\RetailerService\Api\Data\ServiceInterfaceFactory;
 use Smile\RetailerService\Api\Data\ServiceInterface;
 use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 
@@ -41,6 +46,11 @@ class Save extends AbstractService
             $identifier = $this->getRequest()->getParam('service_id');
             $retailerIds = $this->getRequest()->getParam('retailer_id', false);
 
+            $media = false;
+            if (!empty($data[ServiceInterface::MEDIA_PATH])) {
+                $media = $data[ServiceInterface::MEDIA_PATH][0]['name'];
+            }
+
             /** @var \Smile\RetailerService\Api\Data\ServiceInterface $model*/
             $model = $this->serviceFactory->create();
 
@@ -57,6 +67,10 @@ class Save extends AbstractService
             foreach ($retailerIds as $retailerId) {
                 $model->setData($data);
                 $model->setRetailerId($retailerId);
+
+                if ($media) {
+                    $model->setMediaPath($retailerId. '_' .$media);
+                }
 
                 try {
                     $this->serviceRepository->save($model);

@@ -20,7 +20,9 @@ use Magento\Framework\EntityManager\EntityManager;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
+use Magento\Framework\Stdlib\DateTime;
 use Smile\RetailerService\Api\Data\ServiceInterface;
+use Smile\RetailerService\Model\ServiceMediaUpload;
 
 /**
  * Service Resource Model
@@ -42,21 +44,38 @@ class Service extends AbstractDb
     protected $metadataPool;
 
     /**
+     * @var DateTime
+     */
+    protected $dateTime;
+
+    /**
+     * @var ServiceMediaUpload
+     */
+    protected $mediaUpload;
+
+    /**
      * Service constructor.
      *
-     * @param \Magento\Framework\Model\ResourceModel\Db\Context $context        Application Context
-     * @param \Magento\Framework\EntityManager\EntityManager    $entityManager  Entity Manager
-     * @param \Magento\Framework\EntityManager\MetadataPool     $metadataPool   Metadata Pool
-     * @param null                                              $connectionName Connection name
+     * @param Context            $context        Application Context
+     * @param EntityManager      $entityManager  Entity Manager
+     * @param MetadataPool       $metadataPool   Metadata Pool
+     * @param DateTime           $dateTime       Datetime
+     * @param ServiceMediaUpload $mediaUpload    Media upload
+     * @param string             $connectionName Connection name
      */
     public function __construct(
         Context $context,
         EntityManager $entityManager,
         MetadataPool $metadataPool,
+        DateTime $dateTime,
+        ServiceMediaUpload $mediaUpload,
         $connectionName = null
     ) {
         $this->entityManager = $entityManager;
-        $this->metadataPool = $metadataPool;
+        $this->metadataPool  = $metadataPool;
+        $this->dateTime      = $dateTime;
+        $this->mediaUpload   = $mediaUpload;
+
         parent::__construct($context, $connectionName);
     }
 
@@ -94,7 +113,13 @@ class Service extends AbstractDb
      */
     public function save(AbstractModel $object)
     {
+        foreach ([ServiceInterface::CREATED_AT, ServiceInterface::END_AT] as $field) {
+            $value = !$object->getData($field) ? null : $this->dateTime->formatDate($object->getData($field));
+            $object->setData($field, $value);
+        }
+
         $this->entityManager->save($object);
+        $this->mediaUpload->removeMediaFromTmp($object);
 
         return $this;
     }
@@ -105,6 +130,7 @@ class Service extends AbstractDb
     public function delete(AbstractModel $object)
     {
         $this->entityManager->delete($object);
+        $this->mediaUpload->removeMedia($object);
 
         return $this;
     }

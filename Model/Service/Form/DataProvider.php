@@ -15,6 +15,7 @@
 namespace Smile\RetailerService\Model\Service\Form;
 
 use Smile\RetailerService\Model\ResourceModel\Service\CollectionFactory;
+use Smile\RetailerService\Api\Data\ServiceInterface;
 use Magento\Framework\App\Request\DataPersistorInterface;
 
 /**
@@ -74,23 +75,43 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     public function getData()
     {
+
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
         $items = $this->collection->getItems();
-        /** @var \Magento\Cms\Model\Block $block */
-        foreach ($items as $block) {
-            $this->loadedData[$block->getId()] = $block->getData();
+        /** @var \Smile\RetailerService\Model\Service $service */
+        foreach ($items as $service) {
+            $service->setData(ServiceInterface::MEDIA_PATH, $this->getMediaUrl($service));
+            $this->loadedData[$service->getId()] = $service->getData();
         }
 
         $data = $this->dataPersistor->get('smile_retailer_service');
         if (!empty($data)) {
-            $block = $this->collection->getNewEmptyItem();
-            $block->setData($data);
-            $this->loadedData[$block->getId()] = $block->getData();
+            $service = $this->collection->getNewEmptyItem();
+            $service->setData($data);
+
+            $this->loadedData[$service->getId()] = $service->getData();
             $this->dataPersistor->clear('smile_retailer_service');
         }
 
         return $this->loadedData;
+    }
+
+    /**
+     * Get media Url.
+     *
+     * @param ServiceInterface $service Service.
+     *
+     * @return array
+     */
+    protected function getMediaUrl($service)
+    {
+        return [
+            0 => [
+                'name' => $service->getMediaPath(),
+                'url' => 'url'//$this->supplierHelper->getLogoUrl($service)
+            ]
+        ];
     }
 }

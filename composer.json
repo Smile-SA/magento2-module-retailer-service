@@ -13,7 +13,6 @@
         "magento/framework": "*",
         "magento/module-store": "*",
         "magento/module-checkout": "*",
-        "smile/module-offer" : "^1.3.0",
         "smile/module-retailer": "^1.2.0"
     },
     "require-dev": {
