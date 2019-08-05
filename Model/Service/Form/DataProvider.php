@@ -17,6 +17,7 @@ namespace Smile\RetailerService\Model\Service\Form;
 use Smile\RetailerService\Model\ResourceModel\Service\CollectionFactory;
 use Smile\RetailerService\Api\Data\ServiceInterface;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * DataProvider
@@ -43,15 +44,21 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     protected $loadedData;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * Constructor
      *
-     * @param string                 $name              Name.
-     * @param string                 $primaryFieldName  Primary field name.
-     * @param string                 $requestFieldName  Request field name.
-     * @param CollectionFactory      $collectionFactory Collection.
-     * @param DataPersistorInterface $dataPersistor     Data persistor.
-     * @param array                  $meta              Meta.
-     * @param array                  $data              Data
+     * @param string                        $name              Name.
+     * @param string                        $primaryFieldName  Primary field name.
+     * @param string                        $requestFieldName  Request field name.
+     * @param CollectionFactory             $collectionFactory Collection.
+     * @param DataPersistorInterface        $dataPersistor     Data persistor.
+     * @param StoreManagerInterface         $storeManager      Store manager.
+     * @param array                         $meta              Meta.
+     * @param array                         $data              Data.
      */
     public function __construct(
         $name,
@@ -59,11 +66,13 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $requestFieldName,
         CollectionFactory $collectionFactory,
         DataPersistorInterface $dataPersistor,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $meta = [],
         array $data = []
     ) {
-        $this->collection = $collectionFactory->create();
+        $this->collection    = $collectionFactory->create();
         $this->dataPersistor = $dataPersistor;
+        $this->storeManager  = $storeManager;
 
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
@@ -75,7 +84,6 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     public function getData()
     {
-
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
@@ -104,13 +112,16 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      * @param ServiceInterface $service Service.
      *
      * @return array
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     protected function getMediaUrl($service)
     {
+        $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA );
+
         return [
             0 => [
                 'name' => $service->getMediaPath(),
-                'url' => 'url'//$this->supplierHelper->getLogoUrl($service)
+                'url' => $mediaUrl.'retailerservice/'.$service->getMediaPath()
             ]
         ];
     }

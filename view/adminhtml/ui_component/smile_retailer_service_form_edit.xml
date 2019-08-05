@@ -123,46 +123,25 @@
                 </checkbox>
             </formElements>
         </field>
-        <!--<field name="media_path" formElement="imageUploader">-->
-            <!--<argument name="data" xsi:type="array">-->
-                <!--<item name="config" xsi:type="array">-->
-                    <!--<item name="dataType" xsi:type="string">string</item>-->
-                    <!--<item name="source" xsi:type="string">service</item>-->
-                    <!--<item name="label" xsi:type="string" translate="true">Media</item>-->
-                    <!--<item name="visible" xsi:type="string">true</item>-->
-                    <!--<item name="formElement" xsi:type="string">fileUploader</item>-->
-                    <!--<item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>-->
-                    <!--<item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>-->
-                    <!--<item name="validation" xsi:type="array">-->
-                        <!--<item name="required-entry" xsi:type="boolean">false</item>-->
-                    <!--</item>-->
-                    <!--<item name="uploaderConfig" xsi:type="array">-->
-                        <!--<item name="url" xsi:type="url" path="smile_retailer_service/service/mediaUpload"/>-->
-                    <!--</item>-->
-                <!--</item>-->
-            <!--</argument>-->
-        <!--</field>-->
-        <field name="media_path" formElement="fileUploader">
-            <settings>
-                <notice translate="true">Allowed file types: jpg, jpeg, gif, png.</notice>
-                <label translate="true">Logo</label>
-                <componentType>fileUploader</componentType>
-            </settings>
-            <formElements>
-                <fileUploader>
-                    <settings>
-                        <allowedExtensions>jpg jpeg gif png</allowedExtensions>
-                        <maxFileSize>10240000</maxFileSize>
-                        <placeholderType>image</placeholderType>
-                        <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
-                        <uploaderConfig>
-                            <param xsi:type="string" name="url">smile_retailer_service/service/mediaUpload</param>
-                        </uploaderConfig>
-                    </settings>
-                </fileUploader>
-            </formElements>
+        <field name="media_path" formElement="imageUploader">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="source" xsi:type="string">service</item>
+                    <item name="label" xsi:type="string" translate="true">Media</item>
+                    <item name="visible" xsi:type="string">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="smile_retailer_service/service/mediaUpload"/>
+                    </item>
+                </item>
+            </argument>
         </field>
-
         <field name="sort" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
