@@ -116,7 +116,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addForeignKey(
                 $setup->getFkName(
-                    'smile_retailer_service',
+                    ServiceInterface::TABLE_NAME,
                     ServiceInterface::RETAILER_ID,
                     'smile_seller_entity',
                     'entity_id'),

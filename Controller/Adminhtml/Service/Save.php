@@ -14,11 +14,6 @@
 
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
-use Magento\Backend\App\Action\Context;
-use Magento\Framework\Registry;
-use Magento\Framework\View\Result\PageFactory;
-use Smile\RetailerService\Api\ServiceRepositoryInterface;
-use Smile\RetailerService\Api\Data\ServiceInterfaceFactory;
 use Smile\RetailerService\Api\Data\ServiceInterface;
 use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 
