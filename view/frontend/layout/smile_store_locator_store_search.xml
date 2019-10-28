@@ -23,9 +23,18 @@
                         <item name="components" xsi:type="array">
                             <item name="store-locator-search" xsi:type="array">
                                 <item name="children" xsi:type="array">
-                                    <item name="service" xsi:type="array">
-                                        <item name="component" xsi:type="string">uiComponent</item>
-                                        <item name="storeServiceTemplate" xsi:type="string">Smile_RetailerService/services-item</item>
+                                    <item name="banner-container" xsi:type="array">
+                                        <item name="children" xsi:type="array">
+                                            <item name="service-parent" xsi:type="array">
+                                                <item name="component" xsi:type="string">uiComponent</item>
+                                                <item name="displayArea" xsi:type="string">banner-container</item>
+                                                <item name="sortOrder" xsi:type="string">8</item>
+                                                <item name="serviceItemTemplate" xsi:type="string">Smile_RetailerService/services-item</item>
+                                                <item name="config" xsi:type="array">
+                                                    <item name="template" xsi:type="string">Smile_RetailerService/service-wrapper</item>
+                                                </item>
+                                            </item>
+                                        </item>
                                     </item>
                                 </item>
                             </item>
