@@ -11,6 +11,7 @@
  * @category  Smile
  * @package   Smile\RetailerService
  * @author    Fanny DECLERCK <fadec@smile.fr>
+ * @author    Ihor KVASNYTSKYI <ihor.kvasnytskyi@smile-ukraine.com>
  * @copyright 2019 Smile
  * @license   Open Software License ("OSL") v. 3.0
  */
@@ -89,5 +90,9 @@
         <arguments>
             <argument name="imageUploader" xsi:type="object">Smile\RetailerService\ServiceImageUpload</argument>
         </arguments>
+    </type>
+
+    <type name="Smile\StoreLocator\Block\Search">
+        <plugin disabled="false" name="addRetailerServiceData" type="Smile\RetailerService\Plugin\StoreLocatorBlockSearchPlugin" sortOrder="10"/>
     </type>
 </config>
