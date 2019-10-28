@@ -52,10 +52,10 @@ class StoreLocatorBlockSearchPlugin
                 $servicesList = $this->getServiceListByRetailerId($marker['id']);
                 $imageUrlService = $block->getImageUrl().'/retailerservice/';
                 foreach ($servicesList as $services) {
-
+                    $image = $services->getMediaPath() ? $imageUrlService.$services->getMediaPath() : false;
                     $result[$key]['service'][] =
                         [
-                            'media'         => $imageUrlService.$services->getMediaPath(),
+                            'media'         => $image,
                             'title'         => $services->getName(),
                             'description'   => $services->getDescription(),
                         ];
