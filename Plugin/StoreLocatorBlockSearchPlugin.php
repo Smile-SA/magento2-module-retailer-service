@@ -18,17 +18,25 @@ use Smile\RetailerService\Api\Data\ServiceInterface;
 
 class StoreLocatorBlockSearchPlugin
 {
-
-    private $serviceRepositoryInterface;
     /**
-     * Constructor.
-     * @param array                                                          $data                      Additional data.
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+
+    /**
+     * @var ServiceRepositoryInterface
+     */
+    private $serviceRepositoryInterface;
+
+    /**
+     * StoreLocatorBlockSearchPlugin constructor.
+     * @param ServiceRepositoryInterface $serviceRepositoryInterface
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param array $data
      */
     public function __construct(
-        \Smile\StoreLocator\Helper\Data $storeLocatorHelper,
         ServiceRepositoryInterface $serviceRepositoryInterface,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        $data = []
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->serviceRepositoryInterface = $serviceRepositoryInterface;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -40,9 +48,8 @@ class StoreLocatorBlockSearchPlugin
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter).
      *
-     * @param \Smile\Storelocator\Block\Search $block  The block search
-     * @param array                            $result List of markers
-     *
+     * @param \Smile\StoreLocator\Block\Search  $block  The block search
+     * @param $result                           $result List of markers
      * @return array
      */
     public function afterGetMarkers(\Smile\StoreLocator\Block\Search $block, $result)
@@ -66,11 +73,17 @@ class StoreLocatorBlockSearchPlugin
         return $result;
     }
 
+    /**
+     * @param $retailerId
+     * @return ServiceInterface[]
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
     public function getServiceListByRetailerId($retailerId)
     {
         $this->searchCriteriaBuilder
             ->addFilter(ServiceInterface::RETAILER_ID, $retailerId)
-            ->addFilter(ServiceInterface::SORT, 1);
+            ->addFilter(ServiceInterface::SORT, 1)
+            ->addFilter(ServiceInterface::STATUS, 1);
 
         $searchCriteria = $this->searchCriteriaBuilder->create();
         $searchResult = $this->serviceRepositoryInterface->getList($searchCriteria);
