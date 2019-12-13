@@ -1,7 +1,7 @@
-<!--ko if: $parents[1].selectedMarker._latestValue.service-->
+<!-- ko if: $parents[1].displayedMarkers._latestValue[0].service -->
 <div class="store-locator-services-container">
     <h4 class="store-locator-services-title">Services</h4>
-    <div class="store-locator-services-wrapper clearfix" data-bind="{foreach: $parents[1].selectedMarker._latestValue.service}">
+    <div class="store-locator-services-wrapper clearfix" data-bind="{foreach:  $parents[1].displayedMarkers._latestValue[0].service}">
         <div class="store-locator-services-item" data-bind="{template: $parent.serviceItemTemplate}"></div>
     </div>
 </div>
