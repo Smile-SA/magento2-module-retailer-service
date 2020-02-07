@@ -23,6 +23,8 @@ use Magento\Framework\Api\SortOrderBuilder;
 
 class StoreLocatorBlockViewMapPlugin
 {
+    const SERVICE_LIMIT = 4;
+
     /**
      * @var SearchCriteriaBuilder
      */
@@ -175,6 +177,7 @@ class StoreLocatorBlockViewMapPlugin
         $searchCriteria = $this->searchCriteriaBuilder
             ->setFilterGroups($filterGroup)
             ->setSortOrders([$sortOrderServices])
+            ->setPageSize(self::SERVICE_LIMIT)
             ->create();
         $searchResult = $this->serviceRepositoryInterface->getList($searchCriteria);
 
