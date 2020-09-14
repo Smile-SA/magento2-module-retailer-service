@@ -31,6 +31,11 @@ use Smile\RetailerService\Api\Data\ServiceInterfaceFactory;
 abstract class AbstractService extends Action
 {
     /**
+     * Authorization level of a basic admin session
+     */
+    const ADMIN_RESOURCE = 'Smile_RetailerService::retailer_services';
+
+    /**
      * @var \Magento\Framework\View\Result\PageFactory|null
      */
     protected $resultPageFactory = null;
@@ -93,17 +98,5 @@ abstract class AbstractService extends Action
             ->addBreadcrumb(__('Sellers'), __('Retailers'), __('Services'));
 
         return $resultPage;
-    }
-
-    /**
-     * Check if allowed to manage service
-     *
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Smile_RetailerService::retailer_services');
     }
 }
