@@ -1,33 +1,21 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
+use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 
 /**
  * Retailer Service Adminhtml Edit controller.
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
-class Edit extends AbstractService
+class Edit extends AbstractService implements HttpGetActionInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {
@@ -55,6 +43,9 @@ class Edit extends AbstractService
             }
         }
 
-        $this->_forward('create');
+        /** @var \Magento\Backend\Model\View\Result\Forward $resultForward */
+        $resultForward = $this->resultFactory->create(ResultFactory::TYPE_FORWARD);
+
+        return $resultForward->forward('create');
     }
 }

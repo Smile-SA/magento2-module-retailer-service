@@ -1,112 +1,49 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Model;
 
+use Exception;
 use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface as CollectionProcessor;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Smile\RetailerService\Api\Data\ServiceInterfaceFactory;
 use Smile\RetailerService\Api\Data\ServiceInterface;
-use Smile\RetailerService\Api\Data\ServiceSearchResultsInterface;
+use Smile\RetailerService\Api\Data\ServiceInterfaceFactory;
 use Smile\RetailerService\Api\Data\ServiceSearchResultsInterfaceFactory;
 use Smile\RetailerService\Api\ServiceRepositoryInterface;
 use Smile\RetailerService\Model\ResourceModel\Service as ServiceResourceModel;
 use Smile\RetailerService\Model\ResourceModel\Service\CollectionFactory as ServiceCollectionFactory;
 
 /**
- * Service Repository
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ServiceRepository implements ServiceRepositoryInterface
 {
     /**
-     * @var ServiceInterfaceFactory
-     */
-    protected $objectFactory;
-
-    /**
-     * @var ServiceResourceModel
-     */
-    protected $objectResource;
-
-    /**
-     * @var ServiceSearchResultsInterfaceFactory
-     */
-    protected $searchResultsFactory;
-
-    /**
-     * @var CollectionProcessor
-     */
-    protected $collectionProcessor;
-
-    /**
-     * @var FilterBuilder
-     */
-    protected $filterBuilder;
-
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    protected $searchCriteriaBuilder;
-
-    /**
-     * @var ServiceCollectionFactory
-     */
-    protected $serviceCollectionFactory;
-    /**
      * Item constructor.
-     *
-     * @param ServiceInterfaceFactory              $objectFactory
-     * @param ServiceResourceModel                 $objectResource
-     * @param ServiceSearchResultsInterfaceFactory $searchResultsFactory
-     * @param CollectionProcessor                $collectionProcessor
-     * @param FilterBuilder                      $filterBuilder
-     * @param SearchCriteriaBuilder              $searchCriteriaBuilder
-     * @param ServiceCollectionFactory             $serviceCollectionFactory
      */
     public function __construct(
-        ServiceInterfaceFactory $objectFactory,
-        ServiceResourceModel $objectResource,
-        ServiceSearchResultsInterfaceFactory $searchResultsFactory,
-        CollectionProcessor $collectionProcessor,
-        FilterBuilder $filterBuilder,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        ServiceCollectionFactory $serviceCollectionFactory
+        protected ServiceInterfaceFactory $objectFactory,
+        protected ServiceResourceModel $objectResource,
+        protected ServiceSearchResultsInterfaceFactory $searchResultsFactory,
+        protected CollectionProcessor $collectionProcessor,
+        protected FilterBuilder $filterBuilder,
+        protected SearchCriteriaBuilder $searchCriteriaBuilder,
+        protected ServiceCollectionFactory $serviceCollectionFactory
     ) {
-        $this->objectFactory            = $objectFactory;
-        $this->objectResource           = $objectResource;
-        $this->searchResultsFactory     = $searchResultsFactory;
-        $this->collectionProcessor      = $collectionProcessor;
-        $this->filterBuilder            = $filterBuilder;
-        $this->searchCriteriaBuilder    = $searchCriteriaBuilder;
-        $this->serviceCollectionFactory = $serviceCollectionFactory;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($serviceId)
     {
-        /** @var \Magento\Framework\Model\AbstractModel $object */
+        /** @var \Smile\RetailerService\Model\Service $object */
         $object = $this->objectFactory->create();
         $this->objectResource->load($object, $serviceId);
 
@@ -118,7 +55,7 @@ class ServiceRepository implements ServiceRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getByRetailerId($retailerId)
     {
@@ -137,18 +74,16 @@ class ServiceRepository implements ServiceRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
+    public function getList(SearchCriteriaInterface $searchCriteria)
     {
         /** @var \Smile\RetailerService\Model\ResourceModel\Service\Collection $collection */
         $collection = $this->serviceCollectionFactory->create();
 
         $searchResults = $this->searchResultsFactory->create();
-        if ($searchCriteria) {
-            $searchResults->setSearchCriteria($searchCriteria);
-            $this->collectionProcessor->process($searchCriteria, $collection);
-        }
+        $searchResults->setSearchCriteria($searchCriteria);
+        $this->collectionProcessor->process($searchCriteria, $collection);
 
         $collection->load();
         $searchResults->setTotalCount($collection->getSize());
@@ -158,13 +93,14 @@ class ServiceRepository implements ServiceRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(ServiceInterface $service)
     {
         try {
+            /** @var \Smile\RetailerService\Model\Service $service */
             $this->objectResource->save($service);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }
 
@@ -172,22 +108,25 @@ class ServiceRepository implements ServiceRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(ServiceInterface $service)
     {
         try {
+            /** @var \Smile\RetailerService\Model\Service $service */
             $this->objectResource->delete($service);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
+
+        return true;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deleteById($serviceId)
     {
-        $this->delete($this->get($serviceId));
+        return $this->delete($this->get($serviceId));
     }
 }

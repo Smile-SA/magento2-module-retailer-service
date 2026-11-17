@@ -1,32 +1,19 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 
 /**
  * Index Controller for retailer service management.
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
-class Index extends AbstractService
+class Index extends AbstractService implements HttpGetActionInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {

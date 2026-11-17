@@ -1,63 +1,43 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Model;
 
-use Magento\Framework\Exception\FileSystemException;
-use Magento\Framework\Filesystem;
+use Exception;
 use Magento\Catalog\Model\ImageUploader;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\MediaStorage\Helper\File\Storage\Database;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
+use Magento\MediaStorage\Helper\File\Storage\Database;
 use Smile\RetailerService\Api\Data\ServiceInterface;
 
 /**
  * ServiceMediaUpload Model
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
 class ServiceMediaUpload
 {
     /**
      * Image Uploader.
-     *
-     * @var ImageUploader
      */
-    protected $imageUploader;
+    protected ImageUploader $imageUploader;
 
     /**
      * Directory List.
-     *
-     * @var DirectoryList
      */
-    protected $directoryList;
+    protected DirectoryList $directoryList;
 
     /**
      * Core file storage database
-     *
-     * @var Database
      */
-    protected $coreFileStorageDatabase;
+    protected Database $coreFileStorageDatabase;
 
     /**
      * Media directory object (writable).
-     *
-     * @var WriteInterface
      */
-    protected $mediaDirectory;
+    protected WriteInterface $mediaDirectory;
 
     /**
      * ServiceMediaUpload constructor.
@@ -66,7 +46,6 @@ class ServiceMediaUpload
      * @param DirectoryList $directoryList           Directory List.
      * @param Database      $coreFileStorageDatabase File Storage Database.
      * @param Filesystem    $filesystem              File System.
-     *
      * @throws FileSystemException
      */
     public function __construct(
@@ -79,7 +58,7 @@ class ServiceMediaUpload
         $this->directoryList           = $directoryList;
         $this->coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->mediaDirectory          = $filesystem->getDirectoryWrite(
-            \Magento\Framework\App\Filesystem\DirectoryList::MEDIA
+            DirectoryList::MEDIA
         );
     }
 
@@ -87,13 +66,11 @@ class ServiceMediaUpload
      * Remove media From Tmp Directory.
      *
      * @param ServiceInterface $service Service.
-     *
-     * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function removeMediaFromTmp(ServiceInterface $service)
+    public function removeMediaFromTmp(ServiceInterface $service): void
     {
-        $media = str_replace($service->getRetailerId().'_', '', $service->getMediaPath());
+        $media = str_replace($service->getRetailerId() . '_', '', (string) $service->getMediaPath());
         $baseTmpPath = $this->imageUploader->getBaseTmpPath();
         if (!empty($media) && $this->pathExist($baseTmpPath, $media)) {
             $this->moveFileFromTmp($media, $service);
@@ -105,17 +82,16 @@ class ServiceMediaUpload
      *
      * @param string           $imageName Image name.
      * @param ServiceInterface $service   Service.
-     *
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function moveFileFromTmp($imageName, $service)
+    public function moveFileFromTmp(string $imageName, ServiceInterface $service): void
     {
         $baseTmpPath = $this->imageUploader->getBaseTmpPath();
         $basePath = $this->imageUploader->getBasePath();
 
         $baseImagePath = $this->imageUploader->getFilePath(
             $basePath,
-            $service->getRetailerId().'_'.$imageName
+            $service->getRetailerId() . '_' . $imageName
         );
         $baseTmpImagePath = $this->imageUploader->getFilePath($baseTmpPath, $imageName);
 
@@ -128,8 +104,8 @@ class ServiceMediaUpload
                 $baseTmpImagePath,
                 $baseImagePath
             );
-        } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(
+        } catch (Exception $e) {
+            throw new LocalizedException(
                 __('Something went wrong while saving the file(s).')
             );
         }
@@ -139,15 +115,13 @@ class ServiceMediaUpload
      * Remove File.
      *
      * @param ServiceInterface $service Service.
-     *
-     * @return void
      * @throws FileSystemException
      */
-    public function removeMedia(ServiceInterface $service)
+    public function removeMedia(ServiceInterface $service): void
     {
-        $media = $service->getRetailerId().'_'.$service->getMediaPath();
+        $media = $service->getRetailerId() . '_' . $service->getMediaPath();
         $basePath = $this->imageUploader->getBasePath();
-        if (!empty($media) && $this->pathExist($basePath, $media)) {
+        if ($service->getMediaPath() && $this->pathExist($basePath, $media)) {
             $this->removeFile($media);
         }
     }
@@ -157,11 +131,9 @@ class ServiceMediaUpload
      *
      * @param string $basePath Base Path.
      * @param string $fileName File Name.
-     *
-     * @return bool
      * @throws FileSystemException
      */
-    public function pathExist($basePath, $fileName)
+    public function pathExist(string $basePath, string $fileName): bool
     {
         return file_exists($this->getPath($basePath, $fileName));
     }
@@ -171,11 +143,9 @@ class ServiceMediaUpload
      *
      * @param string $basePath Base Path.
      * @param string $fileName File Name.
-     *
-     * @return string
      * @throws FileSystemException
      */
-    public function getPath($basePath, $fileName)
+    public function getPath(string $basePath, string $fileName): string
     {
         return $this->directoryList->getPath(DirectoryList::MEDIA) .
             '/'
@@ -186,12 +156,9 @@ class ServiceMediaUpload
      * Remove File.
      *
      * @param string $fileName File Name.
-     *
-     * @return void
-     *
      * @throws FileSystemException
      */
-    public function removeFile($fileName)
+    public function removeFile(string $fileName): void
     {
         unlink($this->getPath($this->imageUploader->getBasePath(), $fileName));
     }

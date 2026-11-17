@@ -1,30 +1,20 @@
 <?php
-/**
- * DISCLAIMER
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
+
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
+use Exception;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 
 /**
  * Delete Controller for Service
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
-class Delete extends AbstractService
+class Delete extends AbstractService implements HttpGetActionInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute()
     {
@@ -47,7 +37,7 @@ class Delete extends AbstractService
             $this->messageManager->addSuccessMessage(__('You deleted the service %1.', $model->getId()));
 
             return $resultRedirect->setPath('*/*/index');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
 
             return $resultRedirect->setPath('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);

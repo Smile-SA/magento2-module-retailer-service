@@ -1,22 +1,12 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Model\ResourceModel;
 
 use Magento\Framework\DB\Select;
-use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\EntityManager\EntityManager;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
@@ -26,33 +16,9 @@ use Smile\RetailerService\Model\ServiceMediaUpload;
 
 /**
  * Service Resource Model
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
 class Service extends AbstractDb
 {
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
-    /**
-     * @var MetadataPool
-     */
-    protected $metadataPool;
-
-    /**
-     * @var DateTime
-     */
-    protected $dateTime;
-
-    /**
-     * @var ServiceMediaUpload
-     */
-    protected $mediaUpload;
-
     /**
      * Service constructor.
      *
@@ -65,22 +31,18 @@ class Service extends AbstractDb
      */
     public function __construct(
         Context $context,
-        EntityManager $entityManager,
-        MetadataPool $metadataPool,
-        DateTime $dateTime,
-        ServiceMediaUpload $mediaUpload,
-        $connectionName = null
+        protected EntityManager $entityManager,
+        protected MetadataPool $metadataPool,
+        protected DateTime $dateTime,
+        protected ServiceMediaUpload $mediaUpload,
+        ?string $connectionName = null
     ) {
-        $this->entityManager = $entityManager;
-        $this->metadataPool  = $metadataPool;
-        $this->dateTime      = $dateTime;
-        $this->mediaUpload   = $mediaUpload;
 
         parent::__construct($context, $connectionName);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getConnection()
     {
@@ -92,24 +54,23 @@ class Service extends AbstractDb
      *
      * @param \Magento\Framework\Model\AbstractModel $object The service
      * @param mixed                                  $value  The value
-     * @param null                                   $field  The field, if any
-     *
+     * @param mixed                                  $field  The field, if any
      * @return $this
      * @throws \Exception
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function load(AbstractModel $object, $value, $field = null)
+    public function load(AbstractModel $object, mixed $value, mixed $field = null)
     {
         $serviceId = $this->getServiceId($object, $value, $field);
         if ($serviceId) {
-            $this->entityManager->load($object, $serviceId);
+            $this->entityManager->load($object, (string) $serviceId);
         }
 
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function save(AbstractModel $object)
     {
@@ -119,26 +80,26 @@ class Service extends AbstractDb
         }
 
         $this->entityManager->save($object);
+        /** @var \Smile\RetailerService\Model\Service $object */
         $this->mediaUpload->removeMediaFromTmp($object);
 
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function delete(AbstractModel $object)
     {
         $this->entityManager->delete($object);
+        /** @var \Smile\RetailerService\Model\Service $object */
         $this->mediaUpload->removeMedia($object);
 
         return $this;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @SuppressWarnings(PHPMD.CamelCaseMethodName) Method is inherited.
+     * @inheritdoc
      */
     protected function _construct()
     {
@@ -153,13 +114,11 @@ class Service extends AbstractDb
      *
      * @param \Magento\Framework\Model\AbstractModel $object The service
      * @param mixed                                  $value  The value
-     * @param null                                   $field  The field
-     *
-     * @return int|false
+     * @param mixed                                  $field  The field
      * @throws \Exception
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function getServiceId(AbstractModel $object, $value, $field = null)
+    private function getServiceId(AbstractModel $object, mixed $value, mixed $field = null): int|false
     {
         $entityMetadata = $this->metadataPool->getMetadata(ServiceInterface::class);
         if ($field === null) {
@@ -178,6 +137,6 @@ class Service extends AbstractDb
             $entityId = count($result) ? $result[0] : false;
         }
 
-        return $entityId;
+        return $entityId === false ? false : (int) $entityId;
     }
 }
