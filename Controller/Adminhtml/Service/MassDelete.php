@@ -1,36 +1,25 @@
 <?php
-/**
- * DISCLAIMER
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
+
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
-use Smile\RetailerService\Controller\Adminhtml\AbstractService;
+use Magento\Backend\Model\View\Result\Redirect;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 
 /**
  * MassDelete Controller for Service
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
-class MassDelete extends AbstractService
+class MassDelete extends AbstractService implements HttpPostActionInterface
 {
     /**
      * Execute action
      *
-     * @return \Magento\Backend\Model\View\Result\Redirect
      * @throws \Magento\Framework\Exception\LocalizedException|\Exception
      */
-    public function execute()
+    public function execute(): Redirect
     {
         $serviceIds = $this->getRequest()->getParam('selected');
         foreach ($serviceIds as $id) {

@@ -1,60 +1,41 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Page;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
-use Smile\RetailerService\Api\ServiceRepositoryInterface;
 use Smile\RetailerService\Api\Data\ServiceInterfaceFactory;
+use Smile\RetailerService\Api\ServiceRepositoryInterface;
 
 /**
  * Abstract Controller for retailer service management.
  *
  * @category Smile
- * @package  Smile\RetailerService
  * @author   Fanny DECLERCK <fadec@smile.fr>
  */
 abstract class AbstractService extends Action
 {
-    /**
-     * @var \Magento\Framework\View\Result\PageFactory|null
-     */
-    protected $resultPageFactory = null;
+    protected ?PageFactory $resultPageFactory = null;
 
     /**
      * Core registry
-     *
-     * @var Registry
      */
-    protected $coreRegistry;
+    protected Registry $coreRegistry;
 
     /**
      * Service Repository
-     *
-     * @var ServiceRepositoryInterface
      */
-    protected $serviceRepository;
+    protected ServiceRepositoryInterface $serviceRepository;
 
     /**
      * Service Factory
-     *
-     * @var ServiceInterfaceFactory
      */
-    protected $serviceFactory;
+    protected ServiceInterfaceFactory $serviceFactory;
 
     /**
      * Abstract constructor.
@@ -82,10 +63,8 @@ abstract class AbstractService extends Action
 
     /**
      * Create result page
-     *
-     * @return \Magento\Backend\Model\View\Result\Page
      */
-    protected function createPage()
+    protected function createPage(): Page
     {
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
@@ -99,10 +78,8 @@ abstract class AbstractService extends Action
      * Check if allowed to manage service
      *
      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
-     *
-     * @return bool
      */
-    protected function _isAllowed()
+    protected function _isAllowed(): bool
     {
         return $this->_authorization->isAllowed('Smile_RetailerService::retailer_services');
     }

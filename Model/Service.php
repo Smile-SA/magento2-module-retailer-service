@@ -1,64 +1,43 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Model;
 
-use Smile\RetailerService\Api\Data\ServiceInterface;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Model\AbstractModel;
+use Smile\RetailerService\Api\Data\ServiceInterface;
 
 /**
  * Service Model
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName) properties are inherited.
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
 class Service extends AbstractModel implements ServiceInterface, IdentityInterface
 {
-    /**
-     * @var string
-     */
-    const CACHE_TAG = self::TABLE_NAME;
+    public const CACHE_TAG = self::TABLE_NAME;
 
-    /**
-     * @var string
-     */
+    // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
      * Construct.
      */
-    protected function _construct()
+    protected function _construct(): void
     {
         $this->_init(\Smile\RetailerService\Model\ResourceModel\Service::class);
     }
 
     /**
      * Get identities
-     *
-     * @return array
      */
-    public function getIdentities()
+    public function getIdentities(): array
     {
         return [self::CACHE_TAG . '_' . $this->getId(), self::CACHE_TAG . '_' . $this->getId()];
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getId()
     {
@@ -66,7 +45,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getName()
     {
@@ -74,7 +53,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getDescription()
     {
@@ -82,7 +61,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getStatus()
     {
@@ -90,7 +69,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getMediaPath()
     {
@@ -98,7 +77,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getRetailerId()
     {
@@ -106,7 +85,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getSort()
     {
@@ -114,7 +93,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getCreatedAt()
     {
@@ -122,7 +101,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function getEndAt()
     {
@@ -130,7 +109,7 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
     public function setId($serviceId)
     {
@@ -138,65 +117,65 @@ class Service extends AbstractModel implements ServiceInterface, IdentityInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetName($name)
+    public function setName($name)
     {
         return $this->setData(self::NAME, $name);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetDescription($description)
+    public function setDescription($description)
     {
         return $this->setData(self::DESCRIPTION, $description);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetStatus($status)
+    public function setStatus($status)
     {
         return $this->setData(self::STATUS, $status);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetMediaPath($path)
+    public function setMediaPath($path)
     {
         return $this->setData(self::MEDIA_PATH, $path);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetRetailerId($retailerId)
+    public function setRetailerId($retailerId)
     {
         return $this->setData(self::RETAILER_ID, $retailerId);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetSort($sort)
+    public function setSort($sort)
     {
         return $this->setData(self::SORT, $sort);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetCreatedAt($createdAt)
+    public function setCreatedAt($createdAt)
     {
         return $this->setData(self::CREATED_AT, $createdAt);
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritdoc
      */
-    public function SetEndAt($endAt)
+    public function setEndAt($endAt)
     {
         return $this->setData(self::END_AT, $endAt);
     }

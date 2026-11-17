@@ -1,15 +1,6 @@
 <?php
-/**
- * DISCLAIMER
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Block\Adminhtml\Service\Edit;
 
@@ -20,21 +11,10 @@ use Smile\RetailerService\Api\ServiceRepositoryInterface;
  * AbstractButton class
  *
  * @category Smile
- * @package  Smile\RetailerService
  * @author   Fanny DECLERCK <fadec@smile.fr>
  */
 abstract class AbstractButton
 {
-    /**
-     * @var Context
-     */
-    protected $context;
-
-    /**s
-     * @var ServiceRepositoryInterface
-     */
-    protected $objectRepository;
-
     /**
      * AbstractButton constructor.
      *
@@ -42,11 +22,9 @@ abstract class AbstractButton
      * @param ServiceRepositoryInterface $objectRepository Service Repository.
      */
     public function __construct(
-        Context $context,
-        ServiceRepositoryInterface $objectRepository
+        protected Context $context,
+        protected ServiceRepositoryInterface $objectRepository
     ) {
-        $this->context    = $context;
-        $this->objectRepository = $objectRepository;
     }
 
     /**
@@ -54,10 +32,8 @@ abstract class AbstractButton
      *
      * @param   string $route  Route.
      * @param   array  $params Params.
-     *
-     * @return  string
      */
-    public function getUrl($route = '', $params = [])
+    public function getUrl(string $route = '', array $params = []): string
     {
         return $this->context->getUrlBuilder()->getUrl($route, $params);
     }
@@ -65,26 +41,21 @@ abstract class AbstractButton
     /**
      * Return service Id.
      *
-     * @return int|null
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getServiceId()
+    public function getServiceId(): ?int
     {
         $id = $this->context->getRequest()->getParam('id', false);
 
         if ($id) {
-            return $this->objectRepository->get(
-                $this->context->getRequest()->getParam('id')
-            )->getId();
+            return (int) $this->objectRepository->get((int) $id)->getId();
         }
 
         return null;
     }
 
     /**
-     * get the button data
-     *
-     * @return array
+     * Get the button data
      */
-    abstract public function getButtonData();
+    abstract public function getButtonData(): array;
 }
