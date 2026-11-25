@@ -59,7 +59,7 @@ class Service extends AbstractDb
      * @throws \Exception
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function load(AbstractModel $object, mixed $value, mixed $field = null)
+    public function load(AbstractModel $object, $value, $field = null)
     {
         $serviceId = $this->getServiceId($object, $value, $field);
         if ($serviceId) {
@@ -118,7 +118,7 @@ class Service extends AbstractDb
      * @throws \Exception
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    private function getServiceId(AbstractModel $object, mixed $value, mixed $field = null): int|false
+    private function getServiceId(AbstractModel $object, $value, $field = null)
     {
         $entityMetadata = $this->metadataPool->getMetadata(ServiceInterface::class);
         if ($field === null) {
