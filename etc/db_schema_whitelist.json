@@ -1,0 +1,19 @@
+{
+    "smile_retailer_service": {
+        "column": {
+            "service_id": true,
+            "name": true,
+            "description": true,
+            "status": true,
+            "media_path": true,
+            "retailer_id": true,
+            "sort": true,
+            "created_at": true,
+            "end_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SMILE_RETAILER_SERVICE_RETAILER_ID_SMILE_SELLER_ENTITY_ENTITY_ID": true
+        }
+    }
+}

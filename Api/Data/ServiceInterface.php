@@ -1,16 +1,6 @@
 <?php
-/**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
 
 namespace Smile\RetailerService\Api\Data;
 
@@ -24,52 +14,52 @@ interface ServiceInterface
     /**
      * The table name
      */
-    const TABLE_NAME  = 'smile_retailer_service';
+    public const TABLE_NAME  = 'smile_retailer_service';
 
     /**
      * The service Id field
      */
-    const SERVICE_ID  = 'service_id';
+    public const SERVICE_ID  = 'service_id';
 
     /**
      * The service name field
      */
-    const NAME        = 'name';
+    public const NAME        = 'name';
 
     /**
      * The service description field
      */
-    const DESCRIPTION = 'description';
+    public const DESCRIPTION = 'description';
 
     /**
      * The service status field
      */
-    const STATUS      = 'status';
+    public const STATUS      = 'status';
 
     /**
      * The service media_path field
      */
-    const MEDIA_PATH  = 'media_path';
+    public const MEDIA_PATH  = 'media_path';
 
     /**
      * The service retailer_id field
      */
-    const RETAILER_ID = 'retailer_id';
+    public const RETAILER_ID = 'retailer_id';
 
     /**
      * The service sort field
      */
-    const SORT        = 'sort';
+    public const SORT        = 'sort';
 
     /**
      * The service created_at field
      */
-    const CREATED_AT  = 'created_at';
+    public const CREATED_AT  = 'created_at';
 
     /**
      * The service end_at field
      */
-    const END_AT      = 'end_at';
+    public const END_AT      = 'end_at';
 
     /**
      * Get ID.
@@ -138,80 +128,71 @@ interface ServiceInterface
      * Set ID.
      *
      * @param int $serviceId Service ID.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetId($serviceId);
+    public function setId($serviceId);
 
     /**
      * Set name.
      *
      * @param string $name Name.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetName($name);
+    public function setName($name);
 
     /**
      * Set description.
      *
      * @param string $description Description.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetDescription($description);
+    public function setDescription($description);
 
     /**
      * Set status.
      *
      * @param int $status Status.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetStatus($status);
+    public function setStatus($status);
 
     /**
      * Set media path.
      *
      * @param string $path Media file path;
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetMediaPath($path);
+    public function setMediaPath($path);
 
     /**
      * Set retailer id.
      *
      * @param int $retailerId Retailer Id.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetRetailerId($retailerId);
+    public function setRetailerId($retailerId);
 
     /**
      * Set sort.
      *
      * @param int $sort Sort.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetSort($sort);
+    public function setSort($sort);
 
     /**
      * Set created at.
      *
      * @param string $createdAt Created at.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetCreatedAt($createdAt);
+    public function setCreatedAt($createdAt);
 
     /**
      * Set end at.
      *
      * @param string $endAt End at.
-     *
      * @return \Smile\RetailerService\Api\Data\ServiceInterface
      */
-    public function SetEndAt($endAt);
+    public function setEndAt($endAt);
 }
