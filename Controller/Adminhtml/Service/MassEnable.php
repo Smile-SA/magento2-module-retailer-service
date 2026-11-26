@@ -1,42 +1,31 @@
 <?php
-/**
- * DISCLAIMER
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Fanny DECLERCK <fadec@smile.fr>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
+
 namespace Smile\RetailerService\Controller\Adminhtml\Service;
 
+use Magento\Backend\Model\View\Result\Redirect;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Smile\RetailerService\Controller\Adminhtml\AbstractService;
 use Smile\RetailerService\Model\Status\Source\IsActive;
 
 /**
  * RetailerService Adminhtml MassEnable controller.
- *
- * @category Smile
- * @package  Smile\RetailerService
- * @author   Fanny DECLERCK <fadec@smile.fr>
  */
-class MassEnable extends AbstractService
+class MassEnable extends AbstractService implements HttpPostActionInterface
 {
     /**
      * Execute action
      *
-     * @return \Magento\Backend\Model\View\Result\Redirect
      * @throws \Magento\Framework\Exception\LocalizedException|\Exception
      */
-    public function execute()
+    public function execute(): Redirect
     {
         $serviceIds = $this->getRequest()->getParam('selected');
         foreach ($serviceIds as $id) {
             $model = $this->serviceRepository->get($id);
-            $model->setData('status', IsActive::STATUS_ENABLED);
+            $model->setStatus(IsActive::STATUS_ENABLED);
             $this->serviceRepository->save($model);
         }
 

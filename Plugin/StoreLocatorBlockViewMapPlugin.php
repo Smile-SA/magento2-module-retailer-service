@@ -1,96 +1,46 @@
 <?php
-/**
- * DISCLAIMER
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future.
- *
- * @category  Smile
- * @package   Smile\RetailerService
- * @author    Ihor KVASNYTSKYI <ihor.kvasnytskyi@smile-ukraine.com>
- * @copyright 2019 Smile
- * @license   Open Software License ("OSL") v. 3.0
- */
+
+declare(strict_types=1);
+
 namespace Smile\RetailerService\Plugin;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SortOrder;
-use Smile\RetailerPromotion\Api\Data\PromotionInterface;
-use Smile\RetailerService\Api\ServiceRepositoryInterface;
-use Smile\RetailerService\Api\Data\ServiceInterface;
+use DateTime;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
+use Smile\RetailerService\Api\Data\ServiceInterface;
+use Smile\RetailerService\Api\ServiceRepositoryInterface;
+use Smile\StoreLocator\Block\View\Map;
 
 class StoreLocatorBlockViewMapPlugin
 {
-    const SERVICE_LIMIT = 4;
+    public const SERVICE_LIMIT = 4;
 
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-
-    /**
-     * @var ServiceRepositoryInterface
-     */
-    private $serviceRepositoryInterface;
-
-    /**
-     * @var FilterBuilder
-     */
-
-    private $filterBuilder;
-    /**
-     * @var FilterGroupBuilder
-     */
-    private $filterGroupBuilder;
-
-    /**
-     * @var \Magento\Framework\Api\SortOrderBuilder
-     */
-    private $sortOrderBuilder;
-
-    /**
-     * StoreLocatorBlockSearchPlugin constructor.
-     * @param ServiceRepositoryInterface $serviceRepositoryInterface
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param FilterBuilder $filterBuilder
-     * @param FilterGroupBuilder $filterGroupBuilder
-     * @param SortOrderBuilder $sortOrderBuilder
-     * @param array $data
-     */
     public function __construct(
-        ServiceRepositoryInterface $serviceRepositoryInterface,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        FilterBuilder $filterBuilder,
-        FilterGroupBuilder $filterGroupBuilder,
-        SortOrderBuilder $sortOrderBuilder
+        private ServiceRepositoryInterface $serviceRepositoryInterface,
+        private SearchCriteriaBuilder $searchCriteriaBuilder,
+        private FilterBuilder $filterBuilder,
+        private FilterGroupBuilder $filterGroupBuilder,
+        private SortOrderBuilder $sortOrderBuilder
     ) {
-        $this->serviceRepositoryInterface = $serviceRepositoryInterface;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
-        $this->filterGroupBuilder = $filterGroupBuilder;
-        $this->sortOrderBuilder = $sortOrderBuilder;
     }
-
 
     /**
      * Add Service in markers.
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter).
-     *
-     * @param \Smile\StoreLocator\Block\View\Map  $block  The block search
-     * @param $result                           $result List of markers
-     * @return array
+     * @param Map $block The block search
+     * @param array|null $result List of markers
      */
-    public function afterGetMarkerData(\Smile\StoreLocator\Block\View\Map $block, $result)
+    public function afterGetMarkerData(Map $block, ?array $result): ?array
     {
         if (!empty($result)) {
             $l = $result[0]['id'];
-            $servicesList = $this->getServiceListByRetailerId($l);
-            $imageUrlService = $block->getImageUrl().'/retailerservice/';
+            $servicesList = $this->getServiceListByRetailerId((int) $l);
+            $imageUrlService = $block->getImageUrl() . '/retailerservice/';
             foreach ($servicesList as $services) {
-                $image = $services->getMediaPath() ? $imageUrlService.$services->getMediaPath() : false;
+                $image = $services->getMediaPath() ? $imageUrlService . $services->getMediaPath() : false;
                 $result[0]['service'][] =
                     [
                         'media'         => $image,
@@ -104,24 +54,25 @@ class StoreLocatorBlockViewMapPlugin
     }
 
     /**
-     * @param $retailerId
+     * Get the active services of a retailer.
+     *
      * @return ServiceInterface[]
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getServiceListByRetailerId($retailerId)
+    public function getServiceListByRetailerId(int $retailerId): array
     {
-        $now = new \DateTime();
+        $now = new DateTime();
         $currDateFormat = $now->format('Y-m-d');
 
         $retailerIdFilter = $this->filterBuilder
             ->setField(ServiceInterface::STATUS)
             ->setConditionType('eq')
-            ->setValue(1)
+            ->setValue('1')
             ->create();
         $retailerStatusFilter = $this->filterBuilder
             ->setField(ServiceInterface::RETAILER_ID)
             ->setConditionType('eq')
-            ->setValue($retailerId)
+            ->setValue((string) $retailerId)
             ->create();
         $retailerEndDate = $this->filterBuilder
             ->setField(ServiceInterface::END_AT)
@@ -155,6 +106,7 @@ class StoreLocatorBlockViewMapPlugin
             ->setField(ServiceInterface::SORT)
             ->setDirection(SortOrder::SORT_ASC)
             ->create();
+        /** @var \Magento\Framework\Api\Search\FilterGroup[] $filterGroup */
         $filterGroup = [
             $this->filterGroupBuilder
                 ->addFilter($retailerIdFilter)
@@ -171,7 +123,7 @@ class StoreLocatorBlockViewMapPlugin
                 ->addFilter($retailerEndDate)
                 ->addFilter($retailerCurrentDateEnd)
                 ->addFilter($retailerEmptyEnd)
-                ->create()
+                ->create(),
         ];
 
         $searchCriteria = $this->searchCriteriaBuilder
